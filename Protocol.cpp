@@ -5,7 +5,7 @@
  * Author: Austin Hendrix
  */
 
-#include "protocol.h"
+#include "Protocol.h"
 
 // constructors
 Packet::Packet(char * in, uint8_t in_sz) : buffer(in), buf_sz(in_sz) {
