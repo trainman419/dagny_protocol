@@ -2,6 +2,13 @@
 
 A serial protocol for sending different types of packets over a serial link.
 
+## Installation
+
+Check out the github project into your library directory:
+
+    cd Arduino/libraries
+    git clone https://github.com/trainman419/dagny_protocol.git
+
 ## Usage
 
 Setting up the `Protocol` object. The protocol object needs a serial port (Serial object) to use for transmitting and receiving data.
