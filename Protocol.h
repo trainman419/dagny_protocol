@@ -10,10 +10,9 @@
 
 #include <stdint.h>
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#elif defined(ARDUINO)
-#include "WProgram.h"
+#ifdef ARDUINO
+#include <Arduino.h>
+#include <Stream.h>
 #endif
 
 class Packet {
@@ -75,15 +74,15 @@ class Packet {
 #ifdef ARDUINO
 class Protocol {
   public:
-    Protocol(serial &s);
+    Protocol(Stream & serial);
     void poll();
     void setCallback(void (*callback)(Packet&));
     void send(Packet &packet);
 
   private:
-    serial & serial;
+    Stream &serial;
     void (*callback)(Packet&);
-    // TODO: buffer
+    // TODO: buffer size
     char buffer[64];
     // TODO: internal packet?
 };
