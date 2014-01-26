@@ -10,6 +10,12 @@
 
 #include <stdint.h>
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#elif defined(ARDUINO)
+#include "WProgram.h"
+#endif
+
 class Packet {
    private:
       //const static uint8_t PACKET_SZ = N;
@@ -65,5 +71,22 @@ class Packet {
       void finish();
       void reset() { sz = 1; idx = 1; }
 };
+
+#ifdef ARDUINO
+class Protocol {
+  public:
+    Protocol(serial &s);
+    void poll();
+    void setCallback(void (*callback)(Packet&));
+    void send(Packet &packet);
+
+  private:
+    serial & serial;
+    void (*callback)(Packet&);
+    // TODO: buffer
+    char buffer[64];
+    // TODO: internal packet?
+};
+#endif // ARDUINO
 
 #endif
