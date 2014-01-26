@@ -10,10 +10,13 @@ Setting up the `Protocol` object. The protocol object needs a serial port (Seria
 
 The `Protocol` object also needs a function to call whenever it receives a new packet:
 
-    void linkCallback(Packet p) {
+    void linkCallback(Packet &p) {
       switch(p.type) {
         case 'A':
           // process packet type A
+          p.readu8(); // read an unsigned 8-bit value
+          p.reads32(); // read a signed 32-bit value
+          p.readfloat(); // read a float
           break;
         case 'B':
           // process packet type B
