@@ -1,8 +1,8 @@
-= Dagny Protocol Library =
+# Dagny Protocol Library
 
 A serial protocol for sending different types of packets over a serial link.
 
-== Usage ==
+## Usage
 
 Setting up the `Protocol` object. The protocol object needs a serial port (Serial object) to use for transmitting and receiving data.
 
