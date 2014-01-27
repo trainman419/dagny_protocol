@@ -44,7 +44,7 @@ In the main loop, the `Protocol` object handles reading from the `Serial` port a
 
 The `Protocol` object is also used for sending `Packet`s:
 
-    Packet data('D'); // create a packet with type D
+    Packet data('D', 4); // create a packet with type D, and maximum size 4
 
     void loop() {
       uint8_t foo = 42;

@@ -21,6 +21,13 @@ Packet::Packet(char * in, uint8_t in_sz) : buffer(in), buf_sz(in_sz),
    idx = 1;
 }
 
+#ifdef ARDUINO
+Packet::Packet(char packet_type, unsigned char size) : buf_sz(size), 
+  type(packet_type), sz(1), idx(1), buffer((char*)malloc(size)) {
+  buffer[0] = packet_type;
+}
+#endif
+
 // directly append a character to the internal buffer
 void Packet::input(char c) {
    if( sz < buf_sz ) {
@@ -213,6 +220,11 @@ void Protocol::poll() {
 }
 
 void Protocol::send(Packet &p) {
-  // TODO
+  p.finish();
+  const char * out = p.outbuf();
+  for( int i=0; i<p.outsz(); i++ ) {
+    ser.write(out[i]);
+  }
+  p.reset();
 }
 #endif

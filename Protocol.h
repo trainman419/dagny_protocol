@@ -30,10 +30,15 @@ class Packet {
       // construct a packet, set first byte to type
       Packet(char packet_type, unsigned char s, char * b) : 
          buffer(b), buf_sz(s), sz(1), idx(1), type(0)
-      { sz = 1; buffer[0] = packet_type; }
+      { buffer[0] = packet_type; }
 
       // construct a packet from a buffer
       Packet(char * in, unsigned char in_sz);
+
+#ifdef ARDUINO
+      // construct a packet with a particular size
+      Packet(char packet_type, unsigned char size);
+#endif
 
       // directly append a character, so we can use packets as a buffer
       void input(char c);
