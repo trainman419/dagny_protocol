@@ -51,3 +51,17 @@ The `Protocol` object is also used for sending `Packet`s:
       data.add(foo); // adds foo to our packet
       link.send(data); // sends 'data'
     }
+
+## Data Types
+
+The following data types are supported by the `Packet.read__()` methods:
+
+ * `uint8_t`, `unsigned char`: `readu8()`
+ * `int8_t`: `signed char`: `reads8()`
+ * `uint16_t`: `readu16()`
+ * `int16_t`: `reads16()`
+ * `uint32_t`: `readu32()`
+ * `int32_t`: `reads32()`
+ * `float`: `readfloat()`
+
+All of the above data tyes are also supported automatically by the `Packet.append()` method.
