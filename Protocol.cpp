@@ -8,7 +8,8 @@
 #include "Protocol.h"
 
 // constructors
-Packet::Packet(char * in, uint8_t in_sz) : buffer(in), buf_sz(in_sz) {
+Packet::Packet(char * in, uint8_t in_sz) : buffer(in), buf_sz(in_sz), 
+  type(this) {
    /*
    uint8_t i;
    for( i=0; i<in_sz && i<buf_sz; i++) {
@@ -194,3 +195,12 @@ void Packet::finish() {
    }
 }
 
+#ifdef ARDUINO
+void Protocol::poll() {
+  // TODO
+}
+
+void Protocol::send(Packet &p) {
+  // TODO
+}
+#endif

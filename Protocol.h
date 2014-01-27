@@ -28,9 +28,9 @@ class Packet {
 
    public:
       // construct a packet, set first byte to type
-      Packet(char type, unsigned char s, char * b) : 
-         buffer(b), buf_sz(s), sz(1), idx(1)
-      { sz = 1; buffer[0] = type; }
+      Packet(char packet_type, unsigned char s, char * b) : 
+         buffer(b), buf_sz(s), sz(1), idx(1), type(this)
+      { sz = 1; buffer[0] = packet_type; }
 
       // construct a packet from a buffer
       Packet(char * in, unsigned char in_sz);
@@ -69,18 +69,33 @@ class Packet {
       // utility methods
       void finish();
       void reset() { sz = 1; idx = 1; }
+
+  private:
+      class Type {
+        public:
+          Type(Packet * parent) : p(parent) {}
+          operator char() { return p->buffer[0]; }
+          char & operator=(const char t) { p->buffer[0] = t;
+                                             return p->buffer[0]; }
+            
+        private:
+          Packet * p;
+      };
+
+  public:
+      Type type;
 };
 
 #ifdef ARDUINO
 class Protocol {
   public:
-    Protocol(Stream & serial);
+    Protocol(Stream & serial) : ser(serial) {};
     void poll();
-    void setCallback(void (*callback)(Packet&));
+    void setCallback(void (*callback)(Packet&)) { this->callback = callback; }
     void send(Packet &packet);
 
   private:
-    Stream &serial;
+    Stream &ser;
     void (*callback)(Packet&);
     // TODO: buffer size
     char buffer[64];
