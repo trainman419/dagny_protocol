@@ -89,7 +89,7 @@ class Packet {
 #ifdef ARDUINO
 class Protocol {
   public:
-    Protocol(Stream & serial) : ser(serial) {};
+    Protocol(Stream & serial) : ser(serial), input(0, buf_sz, buffer)  {};
     void poll();
     void setCallback(void (*callback)(Packet&)) { this->callback = callback; }
     void send(Packet &packet);
@@ -98,8 +98,10 @@ class Protocol {
     Stream &ser;
     void (*callback)(Packet&);
     // TODO: buffer size
-    char buffer[64];
+    static const char buf_sz = 512;
+    char buffer[buf_sz];
     // TODO: internal packet?
+    Packet input;
 };
 #endif // ARDUINO
 

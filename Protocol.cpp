@@ -197,7 +197,19 @@ void Packet::finish() {
 
 #ifdef ARDUINO
 void Protocol::poll() {
-  // TODO
+  while( ser.available() ) {
+    uint8_t in = ser.read();
+    if( input.type == 0 ) {
+      input.type = in;
+    } else {
+      input.input(in);
+      if( '\r' == in ) {
+        callback(input);
+        input.reset();
+        input.type = 0;
+      }
+    }
+  }
 }
 
 void Protocol::send(Packet &p) {
