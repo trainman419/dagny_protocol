@@ -29,7 +29,7 @@ class Packet {
    public:
       // construct a packet, set first byte to type
       Packet(char packet_type, unsigned char s, char * b) : 
-         buffer(b), buf_sz(s), sz(1), idx(1), type(this)
+         buffer(b), buf_sz(s), sz(1), idx(1), type(0)
       { sz = 1; buffer[0] = packet_type; }
 
       // construct a packet from a buffer
@@ -70,20 +70,7 @@ class Packet {
       void finish();
       void reset() { sz = 1; idx = 1; }
 
-  private:
-      class Type {
-        public:
-          Type(Packet * parent) : p(parent) {}
-          operator char() { return p->buffer[0]; }
-          char & operator=(const char t) { p->buffer[0] = t;
-                                             return p->buffer[0]; }
-            
-        private:
-          Packet * p;
-      };
-
-  public:
-      Type type;
+      char type;
 };
 
 #ifdef ARDUINO
@@ -98,9 +85,8 @@ class Protocol {
     Stream &ser;
     void (*callback)(Packet&);
     // TODO: buffer size
-    static const char buf_sz = 512;
+    static const uint8_t buf_sz = 255;
     char buffer[buf_sz];
-    // TODO: internal packet?
     Packet input;
 };
 #endif // ARDUINO

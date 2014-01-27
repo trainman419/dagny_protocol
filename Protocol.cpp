@@ -9,7 +9,7 @@
 
 // constructors
 Packet::Packet(char * in, uint8_t in_sz) : buffer(in), buf_sz(in_sz), 
-  type(this) {
+  type(0) {
    /*
    uint8_t i;
    for( i=0; i<in_sz && i<buf_sz; i++) {
@@ -198,7 +198,7 @@ void Packet::finish() {
 #ifdef ARDUINO
 void Protocol::poll() {
   while( ser.available() ) {
-    uint8_t in = ser.read();
+    char in = ser.read();
     if( input.type == 0 ) {
       input.type = in;
     } else {
