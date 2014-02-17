@@ -22,8 +22,8 @@ Packet::Packet(char * in, uint8_t in_sz) : buffer(in), buf_sz(in_sz),
 }
 
 #ifdef ARDUINO
-Packet::Packet(char packet_type, unsigned char size) : buf_sz(size), 
-  type(packet_type), sz(1), idx(1), buffer((char*)malloc(size)) {
+Packet::Packet(char packet_type, unsigned char size) : buf_sz(size*2), 
+  type(packet_type), sz(1), idx(1), buffer((char*)malloc(size*2)) {
   buffer[0] = packet_type;
 }
 #endif
@@ -119,6 +119,15 @@ void Packet::append(uint64_t i) {
 
 void Packet::append(int64_t i) {
    append((uint64_t)i);
+}
+
+void Packet::append(int i) {
+   uint8_t tmp;
+   for(int j=0; j<sizeof(int); j++) {
+      tmp = i & 0xFF;
+      append(tmp);
+      tmp >>= 8;
+   }
 }
 
 void Packet::append(float f) {

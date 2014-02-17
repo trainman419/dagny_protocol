@@ -48,7 +48,7 @@ The `Protocol` object is also used for sending `Packet`s:
 
     void loop() {
       uint8_t foo = 42;
-      data.add(foo); // adds foo to our packet
+      data.append(foo); // adds foo to our packet
       link.send(data); // sends 'data'
     }
 

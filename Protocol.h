@@ -52,6 +52,7 @@ class Packet {
       void append(int32_t  i);
       void append(uint64_t i);
       void append(int64_t  i);
+      void append(int      i);
       void append(float    f);
       void append(double   d);
 
